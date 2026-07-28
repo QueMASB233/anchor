@@ -17,4 +17,5 @@ export * from './extractors/index.js';
 export * from './generators/index.js';
 export * from './model/index.js';
 export * from './parsers/index.js';
+export * from './reporters/index.js';
 export * from './rules/index.js';
