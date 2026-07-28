@@ -1,0 +1,49 @@
+name: 'Anchor Design System Lint'
+description: 'Enforce your design system on AI-generated code. Deterministic, offline, no code leaves your repo.'
+author: 'Eleva Builds'
+
+branding:
+  icon: 'anchor'
+  color: 'blue'
+
+inputs:
+  check:
+    description: 'Glob of files to lint.'
+    required: false
+    default: './src/**/*.{tsx,jsx}'
+  config:
+    description: 'Path to anchor.config. Defaults to cosmiconfig discovery.'
+    required: false
+  strict:
+    description: 'Fail the job (exit 1) when any error-severity violation is found.'
+    required: false
+    default: 'true'
+  comment:
+    description: 'Post a summary comment on the pull request. Requires pull-requests: write.'
+    required: false
+    default: 'true'
+  format:
+    description: 'Reporter to use for job output: github, terminal, json, or sarif.'
+    required: false
+    default: 'github'
+  since:
+    description: 'Only lint files changed against this git ref. Empty lints everything in `check`.'
+    required: false
+  github-token:
+    description: 'Token used to post the PR comment. Never used to fetch or execute repository code.'
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  violations:
+    description: 'Total number of violations found.'
+  errors:
+    description: 'Number of error-severity violations.'
+  warnings:
+    description: 'Number of warning-severity violations.'
+  sarif-file:
+    description: 'Path to the generated SARIF file, when format is sarif.'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

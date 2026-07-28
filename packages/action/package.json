@@ -1,0 +1,26 @@
+{
+  "name": "@eleva/anchor-action",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GitHub Action that runs Anchor's design system linter on pull requests.",
+  "license": "MIT",
+  "author": "Eleva Builds",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleva-builds/anchor.git",
+    "directory": "packages/action"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist coverage .turbo"
+  },
+  "dependencies": {
+    "@eleva/anchor-core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

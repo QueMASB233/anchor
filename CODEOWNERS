@@ -1,0 +1,8 @@
+# Default owners for everything in the repository.
+* @eleva-builds/maintainers
+
+# Security-critical surfaces require explicit review.
+/packages/core/src/license/ @eleva-builds/maintainers
+/packages/core/src/llm/     @eleva-builds/maintainers
+/packages/action/           @eleva-builds/maintainers
+/.github/workflows/         @eleva-builds/maintainers

@@ -1,0 +1,31 @@
+node_modules/
+dist/
+# GitHub Actions runs a JS action straight from the repo with no install step,
+# so this one bundled dist MUST be committed. Verified fresh in CI.
+!packages/action/dist/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# Secrets — never commit real values. See .env.example.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+!packages/core/tests/fixtures/license/*.key
+
+# Anchor's own cache, and any generated in example repos
+.anchor/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*

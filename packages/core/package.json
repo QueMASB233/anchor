@@ -1,0 +1,55 @@
+{
+  "name": "@eleva/anchor-core",
+  "version": "0.0.0",
+  "description": "Core engine for Anchor: design system parsing, context generation, and deterministic lint rules.",
+  "license": "MIT",
+  "author": "Eleva Builds",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleva-builds/anchor.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/eleva-builds/anchor#readme",
+  "bugs": "https://github.com/eleva-builds/anchor/issues",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "linter",
+    "ai",
+    "cursor",
+    "claude",
+    "codex"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist coverage .turbo"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}
