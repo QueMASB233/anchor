@@ -10,6 +10,9 @@ AST analysis, no model in the loop, no network, nothing leaves your machine.
 npm install -g @eleva/anchor
 ```
 
+> If this returns a 404, the first release has not landed yet. Build from source:
+> see the [repository README](https://github.com/eleva-builds/anchor#install).
+
 ## Quickstart
 
 In a repository with a Tailwind config and a components folder:

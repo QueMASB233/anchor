@@ -40,9 +40,40 @@ what it actually wrote.
 
 ## Install
 
+> **Not published to npm yet.** `npm install -g @eleva/anchor` returns a 404
+> until the first release lands. Build from source in the meantime — it takes
+> about a minute.
+
+<details open>
+<summary><strong>From source (works today)</strong></summary>
+
+```bash
+git clone https://github.com/eleva-builds/anchor.git
+cd anchor
+corepack enable pnpm      # if you do not have pnpm
+pnpm install
+pnpm run build
+
+# Put `anchor` on your PATH
+cd packages/cli && npm link
+```
+
+`anchor --version` should now work from any directory. To remove it later:
+`npm unlink -g @eleva/anchor`.
+
+Rebuild with `pnpm run build` after pulling changes; the link points at the
+build output, so it picks them up automatically.
+
+</details>
+
+<details>
+<summary><strong>Once published</strong></summary>
+
 ```bash
 npm install -g @eleva/anchor
 ```
+
+</details>
 
 ## Quickstart
 
