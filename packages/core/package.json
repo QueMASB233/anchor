@@ -47,12 +47,16 @@
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --coverage",
-    "clean": "rm -rf dist coverage .turbo"
+    "clean": "rm -rf dist coverage .turbo",
+    "generate:tailwind-defaults": "node scripts/generate-tailwind-defaults.mjs"
   },
   "devDependencies": {
+    "tailwindcss": "^3",
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@typescript-eslint/typescript-estree": "^8.65.0",
+    "postcss": "^8.5.23",
     "zod": "^4.4.3"
   }
 }

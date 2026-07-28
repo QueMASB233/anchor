@@ -11,6 +11,8 @@ export default tseslint.config(
       '**/.turbo/**',
       '**/tests/fixtures/**',
       'packages/action/dist/**',
+      // Build-time codegen scripts, outside any package tsconfig.
+      '**/scripts/**/*.mjs',
     ],
   },
   js.configs.recommended,
@@ -34,7 +36,12 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': 'error',
       '@typescript-eslint/require-await': 'error',
-      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+      // A `default` case counts as exhaustive. Anchor switches over ESTree's
+      // ~180-member node type union; enumerating every arm would be noise.
+      '@typescript-eslint/switch-exhaustiveness-check': [
+        'error',
+        { considerDefaultExhaustiveForUnions: true },
+      ],
 
       // `any` is allowed only with an explicit justification comment, per spec.
       '@typescript-eslint/no-explicit-any': 'error',

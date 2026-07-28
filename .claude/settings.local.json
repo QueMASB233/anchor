@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)",
+      "Bash(npx vitest *)",
+      "Bash(python3 -)",
+      "Bash(pnpm run *)",
+      "Bash(echo \"=== LINT EXIT $? ===\")",
+      "Bash(echo \"=== EXIT $? ===\")"
+    ]
+  }
+}

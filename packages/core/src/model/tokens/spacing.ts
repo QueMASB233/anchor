@@ -10,7 +10,7 @@ import { z } from 'zod';
 
 import { type BaseUnitConfidence, inferBaseUnit } from '../base-unit.js';
 import { type TokenMeta, TokenNameSchema, tokenMetaShape } from '../common.js';
-import { DEFAULT_ROOT_FONT_SIZE, toPx } from '../units.js';
+import { DEFAULT_ROOT_FONT_SIZE, isMultipleOf, toPx } from '../units.js';
 import { isOnPxScale, nearestPxToken } from './px-token.js';
 
 export const SpacingTokenSchema = z.strictObject({
@@ -40,6 +40,15 @@ export const SpacingScaleSchema = z.strictObject({
   outliers: z.array(z.number()),
   /** Root font size used to resolve `rem` values into `px`. */
   rootFontSize: z.number().positive(),
+  /**
+   * Set when the scale is *computed* rather than enumerated, as in Tailwind v4
+   * where `--spacing: 0.25rem` makes every integer multiple valid — `p-13` is
+   * legitimate there and a violation under v3.
+   *
+   * When non-null, `tokens` holds a representative sample for suggestions, but
+   * membership of the scale is decided by divisibility, not by lookup.
+   */
+  dynamicMultiplier: z.number().positive().nullable(),
 });
 export type SpacingScale = z.infer<typeof SpacingScaleSchema>;
 
@@ -51,6 +60,8 @@ export interface SpacingTokenInput extends TokenMeta {
 
 export interface CreateSpacingScaleOptions {
   rootFontSize?: number;
+  /** See {@link SpacingScale.dynamicMultiplier}. */
+  dynamicMultiplier?: number;
 }
 
 /**
@@ -88,6 +99,7 @@ export function createSpacingScale(
     confidence: inference.confidence satisfies BaseUnitConfidence,
     outliers: inference.outliers,
     rootFontSize,
+    dynamicMultiplier: options.dynamicMultiplier ?? null,
   };
 }
 
@@ -96,7 +108,16 @@ export function nearestSpacingToken(scale: SpacingScale, px: number): SpacingTok
   return nearestPxToken(scale.tokens, px);
 }
 
-/** True when `px` exactly matches a non-deprecated token on the scale. */
+/**
+ * True when `px` is a legitimate value on the scale.
+ *
+ * For an enumerated scale this is an exact token match. For a computed scale
+ * (Tailwind v4) it is divisibility by the multiplier, since the valid values
+ * are unbounded and were never enumerated.
+ */
 export function isOnSpacingScale(scale: SpacingScale, px: number): boolean {
+  if (scale.dynamicMultiplier !== null) {
+    return isMultipleOf(px, scale.dynamicMultiplier);
+  }
   return isOnPxScale(scale.tokens, px);
 }
