@@ -1,5 +1,5 @@
 name: 'Anchor Design System Lint'
-description: 'Enforce your design system on AI-generated code. Deterministic, offline, no code leaves your repo.'
+description: 'Enforce your design system on AI-generated code. Deterministic, offline, no code leaves your runner.'
 author: 'Eleva Builds'
 
 branding:
@@ -8,29 +8,28 @@ branding:
 
 inputs:
   check:
-    description: 'Glob of files to lint.'
+    description: 'Files to lint, as globs. Newline- or comma-separated. Defaults to the `include` in anchor.config.'
     required: false
-    default: './src/**/*.{tsx,jsx}'
   config:
-    description: 'Path to anchor.config. Defaults to cosmiconfig discovery.'
+    description: 'Path to anchor.config. Defaults to cosmiconfig discovery from the workspace root.'
     required: false
   strict:
-    description: 'Fail the job (exit 1) when any error-severity violation is found.'
+    description: 'Fail the job when any error-severity violation is found. Warnings never fail the job.'
     required: false
     default: 'true'
   comment:
-    description: 'Post a summary comment on the pull request. Requires pull-requests: write.'
+    description: 'Post a summary comment on the pull request, updating Anchor’s previous one. Requires `pull-requests: write`.'
     required: false
     default: 'true'
   format:
-    description: 'Reporter to use for job output: github, terminal, json, or sarif.'
+    description: 'Reporter for job output: github (inline annotations), terminal, json, or sarif.'
     required: false
     default: 'github'
   since:
-    description: 'Only lint files changed against this git ref. Empty lints everything in `check`.'
+    description: 'Only lint files changed against this git ref. Needs `fetch-depth: 0` on the checkout step.'
     required: false
   github-token:
-    description: 'Token used to post the PR comment. Never used to fetch or execute repository code.'
+    description: 'Token used only to post the pull request comment. Never used to fetch or execute repository code.'
     required: false
     default: ${{ github.token }}
 
@@ -41,9 +40,9 @@ outputs:
     description: 'Number of error-severity violations.'
   warnings:
     description: 'Number of warning-severity violations.'
-  sarif-file:
-    description: 'Path to the generated SARIF file, when format is sarif.'
+  files-checked:
+    description: 'Number of files linted.'
 
 runs:
   using: 'node20'
-  main: 'dist/index.js'
+  main: 'dist/bin.cjs'

@@ -6,9 +6,7 @@
  * and process exit codes only.
  */
 
-import { readFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 
 import { Command, Option } from 'commander';
 import { REPORTER_FORMATS, type ReporterFormat } from '@eleva/anchor-core';
@@ -29,18 +27,18 @@ export * from './ui.js';
 export * from './workspace.js';
 export { EXIT, type CommandContext } from './commands/context.js';
 
-/** Read from package.json so the version can never drift from what ships. */
-function readVersion(): string {
-  try {
-    const here = dirname(fileURLToPath(import.meta.url));
-    const raw = readFileSync(join(here, '..', 'package.json'), 'utf8');
-    return (JSON.parse(raw) as { version?: string }).version ?? '0.0.0';
-  } catch {
-    return '0.0.0';
-  }
-}
+/**
+ * Injected at build time by tsup from package.json.
+ *
+ * A build-time constant rather than a runtime file read: reading package.json
+ * relative to the module needs `import.meta.url`, which does not exist in the
+ * CommonJS bundle the GitHub Action compiles to, and would resolve to the
+ * wrong file inside a bundle anyway.
+ */
+declare const __ANCHOR_VERSION__: string | undefined;
 
-export const CLI_VERSION = readVersion();
+export const CLI_VERSION =
+  typeof __ANCHOR_VERSION__ === 'string' ? __ANCHOR_VERSION__ : '0.0.0-dev';
 
 interface GlobalOptions {
   cwd?: string;
@@ -237,15 +235,14 @@ Anchor runs 100% locally. No telemetry, no network, no account.
   return program;
 }
 
-/** Entry point used by the `anchor` bin. */
+/**
+ * Entry point used by the `anchor` bin.
+ *
+ * Nothing runs on import: `bin.ts` is the only caller. That keeps this module
+ * importable as a library — which the GitHub Action and the end-to-end tests
+ * both rely on — and keeps top-level `await` out of the bundle, since the
+ * Action compiles to CommonJS where top-level await does not exist.
+ */
 export async function main(argv: readonly string[] = process.argv): Promise<void> {
   await createProgram().parseAsync([...argv]);
-}
-
-// Only run when executed as a binary, so importing this module is side-effect free.
-if (
-  process.argv[1] !== undefined &&
-  import.meta.url.endsWith(process.argv[1].split('/').pop() ?? ' ')
-) {
-  await main();
 }

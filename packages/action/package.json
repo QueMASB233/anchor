@@ -18,6 +18,7 @@
     "clean": "rm -rf dist coverage .turbo"
   },
   "dependencies": {
+    "@eleva/anchor": "workspace:^",
     "@eleva/anchor-core": "workspace:*"
   },
   "devDependencies": {

@@ -100,3 +100,34 @@ jobs:
             git --no-pager diff --stat packages/action/dist
             exit 1
           fi
+
+      # The unit tests import src/, so they cannot catch a bundle that fails to
+      # boot — which is exactly what happened when the bundle was ESM and its
+      # CommonJS dependencies could not `require('tty')`. This runs the real
+      # artifact, from a directory with no node_modules in scope.
+      - name: Smoke-test the bundle end to end
+        run: |
+          set -euo pipefail
+          WS="$(mktemp -d)"
+          mkdir -p "$WS/src"
+          cp packages/action/dist/bin.cjs "$WS/"
+          echo "module.exports = { theme: { spacing: { 3: '12px', 4: '16px' } } };" > "$WS/tailwind.config.js"
+          echo 'export const B = () => <div className="p-[13px]" />;' > "$WS/src/Bad.tsx"
+          echo '{ "tokens": ["tailwind.config.js"], "include": ["src/**/*.tsx"] }' > "$WS/anchor.config.json"
+          : > "$WS/outputs"
+
+          set +e
+          ( cd "$WS" && \
+            GITHUB_WORKSPACE="$WS" GITHUB_OUTPUT="$WS/outputs" \
+            GITHUB_REPOSITORY="acme/web" GITHUB_EVENT_NAME="push" \
+            INPUT_COMMENT="false" INPUT_STRICT="true" \
+            node "$WS/bin.cjs" )
+          code=$?
+          set -e
+
+          if [ "$code" -ne 1 ]; then
+            echo "::error::The bundled action exited $code; expected 1 for a strict run with one error."
+            exit 1
+          fi
+          grep -q "errors<<" "$WS/outputs" || { echo "::error::The bundle wrote no step outputs."; exit 1; }
+          echo "Bundle boots and reports correctly."

@@ -47,6 +47,9 @@ importers:
 
   packages/action:
     dependencies:
+      '@eleva/anchor':
+        specifier: workspace:^
+        version: link:../cli
       '@eleva/anchor-core':
         specifier: workspace:*
         version: link:../core
