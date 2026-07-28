@@ -50,7 +50,7 @@
     "clean": "rm -rf dist coverage .turbo"
   },
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "zod": "^4.4.3"
