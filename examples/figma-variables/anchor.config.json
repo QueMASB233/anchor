@@ -1,0 +1,5 @@
+{
+  "name": "Figma Design System",
+  "tokens": ["figma-variables.json"],
+  "include": ["src/**/*.tsx"]
+}

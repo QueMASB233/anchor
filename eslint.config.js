@@ -13,6 +13,9 @@ export default tseslint.config(
       'packages/action/dist/**',
       // Build-time codegen scripts, outside any package tsconfig.
       '**/scripts/**/*.mjs',
+      // Sample projects. They are outside any package tsconfig, and some of
+      // them contain design system violations on purpose.
+      'examples/**',
     ],
   },
   js.configs.recommended,

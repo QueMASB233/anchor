@@ -1,0 +1,17 @@
+{
+  "name": "Acme Design System",
+  "tokens": ["tailwind.config.ts"],
+  "components": ["src/components/**/*.tsx"],
+  "include": ["src/**/*.tsx"],
+  "designSystem": {
+    "compositionRules": [
+      {
+        "id": "no-nested-card",
+        "parent": "Card",
+        "forbiddenDescendants": ["Card"],
+        "severity": "error",
+        "message": "A Card inside a Card doubles the padding, border and elevation. Use a section instead."
+      }
+    ]
+  }
+}

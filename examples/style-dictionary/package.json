@@ -1,0 +1,6 @@
+{
+  "name": "@anchor-examples/style-dictionary",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Style Dictionary tokens, the common setup for a multi-platform design system."
+}

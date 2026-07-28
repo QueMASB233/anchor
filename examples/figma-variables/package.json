@@ -1,0 +1,6 @@
+{
+  "name": "@anchor-examples/figma-variables",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A Figma variables export, straight from the REST API."
+}

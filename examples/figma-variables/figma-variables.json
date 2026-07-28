@@ -1,0 +1,67 @@
+{
+  "status": 200,
+  "error": false,
+  "meta": {
+    "variableCollections": {
+      "VariableCollectionId:1:2": {
+        "id": "VariableCollectionId:1:2",
+        "name": "Primitives",
+        "modes": [{ "modeId": "1:0", "name": "Mode 1" }],
+        "defaultModeId": "1:0"
+      }
+    },
+    "variables": {
+      "VariableID:1:3": {
+        "id": "VariableID:1:3",
+        "name": "color/brand/600",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": { "r": 0.1451, "g": 0.3882, "b": 0.9216, "a": 1 } },
+        "description": "Primary brand blue"
+      },
+      "VariableID:1:4": {
+        "id": "VariableID:1:4",
+        "name": "color/text/default",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": { "r": 0.0588, "g": 0.0902, "b": 0.1647, "a": 1 } }
+      },
+      "VariableID:1:5": {
+        "id": "VariableID:1:5",
+        "name": "color/text/accent",
+        "resolvedType": "COLOR",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": { "type": "VARIABLE_ALIAS", "id": "VariableID:1:3" } },
+        "description": "Aliases the brand colour"
+      },
+      "VariableID:1:6": {
+        "id": "VariableID:1:6",
+        "name": "spacing/sm",
+        "resolvedType": "FLOAT",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": 8 }
+      },
+      "VariableID:1:7": {
+        "id": "VariableID:1:7",
+        "name": "spacing/md",
+        "resolvedType": "FLOAT",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": 16 }
+      },
+      "VariableID:1:8": {
+        "id": "VariableID:1:8",
+        "name": "spacing/lg",
+        "resolvedType": "FLOAT",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": 24 }
+      },
+      "VariableID:1:9": {
+        "id": "VariableID:1:9",
+        "name": "radius/md",
+        "resolvedType": "FLOAT",
+        "variableCollectionId": "VariableCollectionId:1:2",
+        "valuesByMode": { "1:0": 8 }
+      }
+    }
+  }
+}

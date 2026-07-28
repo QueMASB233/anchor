@@ -1,0 +1,5 @@
+{
+  "name": "Multi-platform Design System",
+  "tokens": ["tokens.json"],
+  "include": ["src/**/*.tsx"]
+}
