@@ -1,0 +1,228 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`generateAgentsMd > matches its snapshot 1`] = `
+"# Design system
+
+This project uses the **Acme** v2.1.0 design system, defined in \`style-dictionary\` format. Follow it exactly when writing or modifying UI code: use the tokens below rather than ad-hoc values.
+
+## How to use this document
+
+- Use the token names below verbatim. They are the vocabulary of this codebase.
+- Never introduce a value that is not listed here. If nothing fits, say so rather than inventing one.
+- The rules at the end are enforced automatically; breaking one will block the pull request.
+
+## Spacing
+
+Base unit: **4px**.
+
+Allowed values: \`none\` (0px), \`xs\` (4px), \`sm\` (8px), \`md\` (16px), \`lg\` (24px), \`xl\` (32px)
+
+Deprecated, do not use: \`legacy\`
+
+## Colour
+
+**Semantic tokens — prefer these.**
+
+- \`text-secondary\`: #6b7280 → \`gray-500\` — Muted body copy
+- \`surface\`: #ffffff
+
+**Palette.**
+
+- \`blue-*\`: 500, 600
+- \`gray-*\`: 500
+
+## Border radius
+
+Allowed values: \`sm\` (2px), \`md\` (6px)
+
+## Shadow
+
+Allowed values: \`card\` (0 4px 6px rgba(0, 0, 0, 0.1))
+
+## Font family
+
+Allowed values: \`sans\` (Inter, system-ui, sans-serif)
+
+## Font size
+
+Allowed values: \`base\` (16px), \`lg\` (20px)
+
+## Font weight
+
+Allowed values: \`bold\` (700)
+
+## Components
+
+| Component | Variants | Required props |
+| --- | --- | --- |
+| \`Button\` | variant: primary \\| secondary \\| ghost<br>size: sm \\| md \\| lg | children |
+| \`Card\` | — | — |
+
+## Composition rules
+
+- \`Card\` must never contain \`Card\` at any depth.
+- \`List\` accepts only \`ListItem\` as direct children.
+
+## Project-specific anti-patterns
+
+- **no-legacy-modal** — LegacyModal is being retired. Instead: Use \`Dialog\`.
+
+## Rules
+
+These are enforced automatically on every pull request. Code that breaks them will be flagged before review.
+
+- **no-arbitrary-spacing** — Never use arbitrary spacing values such as \`p-[13px]\`, \`gap-[7px]\` or \`m-[3rem]\`. Every spacing utility must come from the scale above.
+- **no-raw-hex-colors** — Never hard-code a colour, in a class (\`bg-[#2D3748]\`) or a style object. Use a colour token.
+- **use-design-tokens** — Prefer semantic tokens over raw palette values: \`text-secondary\` rather than \`text-gray-500\`. Semantic tokens survive a rebrand; palette values do not.
+- **no-inline-styles** — Never use \`style={{ ... }}\`. Use utility classes, or extend the component so the variation is part of its API.
+- **valid-component-variants** — Only pass variant values that the component actually declares. Inventing one silently falls back to the default styling.
+- **composition-rules** — Respect the composition rules above. Nesting a component inside itself is almost always a layout mistake.
+- **no-custom-shadows** — Never use arbitrary shadows such as \`shadow-[0_4px_8px_rgba(0,0,0,0.1)]\`. Use a shadow token.
+- **heading-order** — Keep heading levels sequential. Never jump from \`h1\` to \`h3\`; screen reader users navigate by that structure.
+"
+`;
+
+exports[`generateClaudeMd > matches its snapshot 1`] = `
+"## Design system
+
+This project uses the **Acme** v2.1.0 design system, defined in \`style-dictionary\` format. Follow it exactly when writing or modifying UI code: use the tokens below rather than ad-hoc values.
+
+If a value you need is not in this document, do not invent one — ask, or use the closest token listed.
+
+### Spacing
+
+Base unit: **4px**.
+
+Allowed values: \`none\` (0px), \`xs\` (4px), \`sm\` (8px), \`md\` (16px), \`lg\` (24px), \`xl\` (32px)
+
+Deprecated, do not use: \`legacy\`
+
+### Colour
+
+**Semantic tokens — prefer these.**
+
+- \`text-secondary\`: #6b7280 → \`gray-500\` — Muted body copy
+- \`surface\`: #ffffff
+
+**Palette.**
+
+- \`blue-*\`: 500, 600
+- \`gray-*\`: 500
+
+### Border radius
+
+Allowed values: \`sm\` (2px), \`md\` (6px)
+
+### Shadow
+
+Allowed values: \`card\` (0 4px 6px rgba(0, 0, 0, 0.1))
+
+### Font family
+
+Allowed values: \`sans\` (Inter, system-ui, sans-serif)
+
+### Font size
+
+Allowed values: \`base\` (16px), \`lg\` (20px)
+
+### Font weight
+
+Allowed values: \`bold\` (700)
+
+### Components
+
+| Component | Variants | Required props |
+| --- | --- | --- |
+| \`Button\` | variant: primary \\| secondary \\| ghost<br>size: sm \\| md \\| lg | children |
+| \`Card\` | — | — |
+
+### Composition rules
+
+- \`Card\` must never contain \`Card\` at any depth.
+- \`List\` accepts only \`ListItem\` as direct children.
+
+### Project-specific anti-patterns
+
+- **no-legacy-modal** — LegacyModal is being retired. Instead: Use \`Dialog\`.
+
+### Rules
+
+These are enforced automatically on every pull request. Code that breaks them will be flagged before review.
+
+- **no-arbitrary-spacing** — Never use arbitrary spacing values such as \`p-[13px]\`, \`gap-[7px]\` or \`m-[3rem]\`. Every spacing utility must come from the scale above.
+- **no-raw-hex-colors** — Never hard-code a colour, in a class (\`bg-[#2D3748]\`) or a style object. Use a colour token.
+- **use-design-tokens** — Prefer semantic tokens over raw palette values: \`text-secondary\` rather than \`text-gray-500\`. Semantic tokens survive a rebrand; palette values do not.
+- **no-inline-styles** — Never use \`style={{ ... }}\`. Use utility classes, or extend the component so the variation is part of its API.
+- **valid-component-variants** — Only pass variant values that the component actually declares. Inventing one silently falls back to the default styling.
+- **composition-rules** — Respect the composition rules above. Nesting a component inside itself is almost always a layout mistake.
+- **no-custom-shadows** — Never use arbitrary shadows such as \`shadow-[0_4px_8px_rgba(0,0,0,0.1)]\`. Use a shadow token.
+- **heading-order** — Keep heading levels sequential. Never jump from \`h1\` to \`h3\`; screen reader users navigate by that structure.
+"
+`;
+
+exports[`generateCursorrules > matches its snapshot 1`] = `
+"This project uses the Acme v2.1.0 design system, defined in \`style-dictionary\` format. Follow it exactly when writing or modifying UI code: use the tokens below rather than ad-hoc values.
+
+HARD RULES — these are enforced on every pull request:
+
+These are enforced automatically on every pull request. Code that breaks them will be flagged before review.
+
+- **no-arbitrary-spacing** — Never use arbitrary spacing values such as \`p-[13px]\`, \`gap-[7px]\` or \`m-[3rem]\`. Every spacing utility must come from the scale above.
+- **no-raw-hex-colors** — Never hard-code a colour, in a class (\`bg-[#2D3748]\`) or a style object. Use a colour token.
+- **use-design-tokens** — Prefer semantic tokens over raw palette values: \`text-secondary\` rather than \`text-gray-500\`. Semantic tokens survive a rebrand; palette values do not.
+- **no-inline-styles** — Never use \`style={{ ... }}\`. Use utility classes, or extend the component so the variation is part of its API.
+- **valid-component-variants** — Only pass variant values that the component actually declares. Inventing one silently falls back to the default styling.
+- **composition-rules** — Respect the composition rules above. Nesting a component inside itself is almost always a layout mistake.
+- **no-custom-shadows** — Never use arbitrary shadows such as \`shadow-[0_4px_8px_rgba(0,0,0,0.1)]\`. Use a shadow token.
+- **heading-order** — Keep heading levels sequential. Never jump from \`h1\` to \`h3\`; screen reader users navigate by that structure.
+
+Design system reference:
+
+Spacing:
+Base unit: **4px**.
+
+Allowed values: \`none\` (0px), \`xs\` (4px), \`sm\` (8px), \`md\` (16px), \`lg\` (24px), \`xl\` (32px)
+
+Deprecated, do not use: \`legacy\`
+
+Colour:
+**Semantic tokens — prefer these.**
+
+- \`text-secondary\`: #6b7280 → \`gray-500\` — Muted body copy
+- \`surface\`: #ffffff
+
+**Palette.**
+
+- \`blue-*\`: 500, 600
+- \`gray-*\`: 500
+
+Border radius:
+Allowed values: \`sm\` (2px), \`md\` (6px)
+
+Shadow:
+Allowed values: \`card\` (0 4px 6px rgba(0, 0, 0, 0.1))
+
+Font family:
+Allowed values: \`sans\` (Inter, system-ui, sans-serif)
+
+Font size:
+Allowed values: \`base\` (16px), \`lg\` (20px)
+
+Font weight:
+Allowed values: \`bold\` (700)
+
+Components:
+- Component — Variants — Required props
+- \`Button\` — variant: primary \\ — secondary \\ — ghost; size: sm \\ — md \\ — lg — children
+- \`Card\` — — — —
+
+Composition rules:
+- \`Card\` must never contain \`Card\` at any depth.
+- \`List\` accepts only \`ListItem\` as direct children.
+
+Project-specific anti-patterns:
+- **no-legacy-modal** — LegacyModal is being retired. Instead: Use \`Dialog\`.
+
+If a value you need is not listed above, do not invent one. Use the closest token, or ask.
+"
+`;

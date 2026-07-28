@@ -12,5 +12,6 @@
 /** Semantic version of the core engine, surfaced in reports and cache keys. */
 export const CORE_VERSION = '0.0.0';
 
+export * from './generators/index.js';
 export * from './model/index.js';
 export * from './parsers/index.js';
