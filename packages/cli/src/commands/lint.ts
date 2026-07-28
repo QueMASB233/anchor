@@ -18,6 +18,7 @@ import {
   applyFixes,
   ALL_RULES,
   buildReport,
+  getEntitlements,
   getReporter,
   lintFile,
   renderComment,
@@ -85,6 +86,17 @@ export async function runLint(
 
   // A banner would corrupt piped JSON or SARIF.
   if (!machineReadable) ui.banner('lint');
+
+  // The licensing seam gates nothing — every capability is free. This exists so
+  // a user who supplied a key that cannot be read is told, rather than
+  // wondering, and so the seam does not rot from disuse. See docs/PAID-TIER.md.
+  const entitlements = getEntitlements({
+    licenseKey: config.license,
+    env: process.env,
+  });
+  if (entitlements.problem !== undefined && !machineReadable) {
+    ui.warn(entitlements.problem);
+  }
 
   const resolved = await resolveDesignSystem({
     cwd,

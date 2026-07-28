@@ -42,7 +42,9 @@ Network access is possible in exactly one place: the optional LLM layer, which i
 
 ### 3. License verification is offline and signature-only
 
-Paid-tier entitlements are carried in an Ed25519-signed license key, verified locally against a public key compiled into the binary. Anchor never contacts a licensing server. The private signing key exists only on Eleva Builds' offline signing infrastructure — it is not in this repository, not in CI, and not in any published artifact.
+**Nothing in Anchor is gated today.** Every capability it ships is free, and the entitlement check returns the same feature set with or without a license. The machinery below exists so that adding a commercial tier later would be an addition rather than a refactor; see [docs/PAID-TIER.md](docs/PAID-TIER.md).
+
+If a license is ever issued, it is carried in an Ed25519-signed key verified locally against a public key compiled into the build. Anchor never contacts a licensing server. The public key currently shipped is a deliberate placeholder, so no key verifies at all — the safe failure direction. The matching private key does not exist yet, and when it does it will live on offline signing infrastructure: not in this repository, not in CI, not in any published artifact.
 
 Note that offline signature verification is designed to establish _entitlement_, not to resist a determined user patching their own local copy. That is an accepted trade-off in an open-source client.
 

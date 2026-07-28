@@ -15,6 +15,7 @@ export const CORE_VERSION = '0.0.0';
 export * from './engine/index.js';
 export * from './extractors/index.js';
 export * from './generators/index.js';
+export * from './license/index.js';
 export * from './llm/index.js';
 export * from './model/index.js';
 export * from './parsers/index.js';
