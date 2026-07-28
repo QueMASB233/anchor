@@ -21,6 +21,7 @@ import {
   getReporter,
   lintFile,
   renderComment,
+  suggestFixes,
   type LintFileResult,
   type LintOptions,
   type ReporterFormat,
@@ -201,6 +202,49 @@ export async function runLint(
 
   if (options.commentFile !== undefined) {
     await writeFileEnsuringDir(resolve(cwd, options.commentFile), renderComment(report, { cwd }));
+  }
+
+  // The optional suggestion layer runs only after the deterministic result is
+  // complete, and only when the user explicitly turned it on. Nothing here can
+  // change a violation, a count, or an exit code.
+  if (config.llm?.enabled === true && !machineReadable && report.violations.length > 0) {
+    const outcome = await suggestFixes(
+      report.violations.map((entry) => ({
+        violation: entry,
+        source: sourceText.get(entry.file) ?? '',
+      })),
+      config.llm,
+      { env: process.env },
+    );
+
+    if (outcome.suggestions.length > 0) {
+      ui.line();
+      const provider = config.llm.provider ?? 'ollama';
+      ui.step(
+        'sparkle',
+        `${ui.paint('Suggestions', 'bold')}  ${ui.paint(`via ${provider}`, 'grey')}`,
+      );
+
+      for (const suggestion of outcome.suggestions) {
+        ui.line();
+        ui.line(
+          `   ${ui.paint(`${suggestion.file}:${suggestion.line}`, 'dim')}  ${ui.paint(suggestion.ruleId, 'grey')}`,
+        );
+        for (const sentence of suggestion.text.split('\n')) ui.line(`   ${sentence}`);
+      }
+
+      if (outcome.redactedSecrets > 0) {
+        ui.line();
+        ui.warn(
+          `Redacted ${outcome.redactedSecrets} apparent ${outcome.redactedSecrets === 1 ? 'secret' : 'secrets'} from the code sent to ${provider}.`,
+        );
+      }
+    }
+
+    for (const warning of outcome.warnings) ui.warn(warning);
+    if (outcome.skipped !== undefined && outcome.suggestions.length === 0) {
+      ui.detail(outcome.skipped);
+    }
   }
 
   const { errors, warnings, total, fixable } = report.counts;

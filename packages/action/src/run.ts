@@ -17,7 +17,13 @@
  * 2. `--fix` is refused. Writing to the tree and pushing would turn a linter
  *    into a commit author, and on a fork the token cannot push anyway.
  *
- * 3. `pull_request_target` is called out. That trigger combines a write-scoped
+ * 3. The LLM layer is disabled outright. `llm.baseUrl` is a URL read from the
+ *    pull request's own config, so leaving it on would let a contributor point
+ *    Anchor at a server they control and have it POST the repository's source
+ *    there — a data exfiltration primitive handed over by a linter. Suggestions
+ *    are a local convenience; they have no place in CI.
+ *
+ * 4. `pull_request_target` is called out. That trigger combines a write-scoped
  *    token with contributor-controlled code, and while Anchor never executes
  *    that code, a workflow built that way is usually one step from something
  *    that does.
@@ -80,6 +86,13 @@ export function hardenConfig(config: AnchorConfig): { config: AnchorConfig; stri
     hardened.tailwind = { ...config.tailwind, resolveConfig: false };
   }
 
+  // `llm.baseUrl` comes from the pull request. Enabled, it would send the
+  // repository's source to whatever host that config names.
+  if (config.llm?.enabled === true) {
+    stripped.push('llm.enabled');
+    hardened.llm = { ...config.llm, enabled: false };
+  }
+
   return { config: hardened, stripped };
 }
 
@@ -127,7 +140,9 @@ export async function run(
 
   for (const option of stripped) {
     warning(
-      `Ignored \`${option}\` from the repository configuration. It would require executing code from this pull request, which the Anchor Action never does.`,
+      option === 'llm.enabled'
+        ? "Ignored `llm.enabled` from the repository configuration. Its `baseUrl` is contributor-controlled, so honouring it would let a pull request send this repository's source to a server of its choosing. Suggestions are a local-only feature."
+        : `Ignored \`${option}\` from the repository configuration. It would require executing code from this pull request, which the Anchor Action never does.`,
     );
   }
 

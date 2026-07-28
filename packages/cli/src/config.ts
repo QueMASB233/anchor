@@ -17,6 +17,7 @@ import {
   AntiPatternSchema,
   ComponentDefinitionSchema,
   CompositionRuleSchema,
+  LLM_PROVIDERS,
   RULE_IDS,
   SeveritySchema,
   z,
@@ -99,6 +100,26 @@ export const AnchorConfigSchema = z.strictObject({
       components: z.record(z.string(), ComponentDefinitionSchema).optional(),
       compositionRules: z.array(CompositionRuleSchema).optional(),
       antiPatterns: z.array(AntiPatternSchema).optional(),
+    })
+    .optional(),
+
+  /**
+   * The optional bring-your-own-key suggestion layer.
+   *
+   * Off unless `enabled` is exactly `true`. Anchor lints identically either
+   * way; this only adds prose to violations it already found.
+   */
+  llm: z
+    .strictObject({
+      enabled: z.boolean().optional(),
+      provider: z.enum(LLM_PROVIDERS).optional(),
+      model: z.string().min(1).optional(),
+      /** Prefer the environment variable: config files get committed. */
+      apiKey: z.string().min(1).optional(),
+      baseUrl: z.string().min(1).optional(),
+      timeoutMs: z.number().int().positive().optional(),
+      maxSuggestions: z.number().int().positive().optional(),
+      contextLines: z.number().int().nonnegative().optional(),
     })
     .optional(),
 

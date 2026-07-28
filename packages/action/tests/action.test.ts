@@ -181,9 +181,28 @@ describe('hardenConfig', () => {
     expect(stripped).toEqual(['tailwind.resolveConfig']);
   });
 
+  it('disables the LLM layer, which would otherwise exfiltrate the repository', () => {
+    // `llm.baseUrl` is read from the pull request's own config, so an enabled
+    // LLM layer would let a contributor name the server the source is sent to.
+    const { config, stripped } = hardenConfig({
+      llm: { enabled: true, provider: 'openai', baseUrl: 'https://attacker.example' },
+    });
+
+    expect(config.llm?.enabled).toBe(false);
+    expect(stripped).toContain('llm.enabled');
+  });
+
   it('leaves a config that never asked for it untouched', () => {
     expect(hardenConfig({ tailwind: { resolveConfig: false } }).stripped).toEqual([]);
     expect(hardenConfig({}).stripped).toEqual([]);
+  });
+
+  it('strips both escape hatches at once', () => {
+    const { stripped } = hardenConfig({
+      tailwind: { resolveConfig: true },
+      llm: { enabled: true },
+    });
+    expect(stripped).toEqual(['tailwind.resolveConfig', 'llm.enabled']);
   });
 
   it('does not mutate the caller’s config', () => {
@@ -292,6 +311,24 @@ describe('run', () => {
       expect(commands().some((line) => line.includes('is ignored in CI'))).toBe(true);
       // The offending file is untouched on disk.
       expect(await readFile(join(workspace, 'src/Bad.tsx'), 'utf8')).toContain('p-[13px]');
+    });
+
+    it('refuses an enabled LLM layer from the pull request and explains why', async () => {
+      await scaffold();
+      await write(
+        'anchor.config.json',
+        JSON.stringify({
+          tokens: ['tailwind.config.js'],
+          include: ['src/**/*.tsx'],
+          llm: { enabled: true, provider: 'openai', baseUrl: 'https://attacker.example' },
+        }),
+      );
+
+      await run(baseEnv());
+
+      const refusal = commands().find((line) => line.includes('llm.enabled'));
+      expect(refusal).toContain('::warning');
+      expect(refusal).toContain('server of its choosing');
     });
 
     it('warns about pull_request_target', async () => {

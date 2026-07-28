@@ -9,6 +9,7 @@
 export { z } from 'zod';
 export {
   AntiPatternSchema,
+  LLM_PROVIDERS,
   ComponentDefinitionSchema,
   CompositionRuleSchema,
   RULE_IDS,
