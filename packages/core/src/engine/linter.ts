@@ -19,10 +19,15 @@ import { parseSourceFile, type SourceFile } from './source-file.js';
 import { Suppressions } from './suppression.js';
 import { compareViolations, type Violation } from './violation.js';
 
-/** Per-rule configuration, as it appears in `anchor.config`. */
+/**
+ * Per-rule configuration, as it appears in `anchor.config`.
+ *
+ * Fields explicitly admit `undefined` because this is populated from parsed
+ * JSON, where an absent key and an explicit `undefined` are the same thing.
+ */
 export interface RuleSetting {
-  severity?: Severity;
-  options?: Record<string, unknown>;
+  severity?: Severity | undefined;
+  options?: Record<string, unknown> | undefined;
 }
 
 export type RuleConfig = Severity | RuleSetting;

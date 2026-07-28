@@ -36,6 +36,16 @@ export interface LintReport {
 export interface ReporterOptions {
   /** Emit ANSI colour. Callers decide; reporters never sniff the terminal. */
   color?: boolean;
+  /**
+   * Use emoji severity markers. Off by default so piped and redirected output
+   * stays plain, and so terminals with no emoji font are not left with boxes.
+   */
+  emoji?: boolean;
+  /**
+   * Append the closing count summary. The CLI turns this off because it prints
+   * its own, richer summary with timing — two summaries in a row read as a bug.
+   */
+  summary?: boolean;
   /** Resolves a file's source text, enabling code frames. */
   getSource?: (path: string) => string | undefined;
   /** Root used to shorten displayed paths. */

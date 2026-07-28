@@ -1,10 +1,10 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
-  // ESM only: this is a bin, nothing imports it as CJS.
+  // Two entries: the library surface, and the executable that calls into it.
+  entry: ['src/index.ts', 'src/bin.ts'],
   format: ['esm'],
-  dts: true,
+  dts: { entry: 'src/index.ts' },
   sourcemap: true,
   clean: true,
   target: 'node20',

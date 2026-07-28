@@ -1,7 +1,7 @@
 {
   "name": "@eleva/anchor",
   "version": "0.0.0",
-  "description": "Anchor CLI — make AI coding agents respect your design system. Runs 100% locally.",
+  "description": "Anchor CLI \u2014 make AI coding agents respect your design system. Runs 100% locally.",
   "license": "MIT",
   "author": "Eleva Builds",
   "repository": {
@@ -22,7 +22,7 @@
   ],
   "type": "module",
   "bin": {
-    "anchor": "./dist/index.js"
+    "anchor": "./dist/bin.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -51,7 +51,11 @@
     "clean": "rm -rf dist coverage .turbo"
   },
   "dependencies": {
-    "@eleva/anchor-core": "workspace:*"
+    "@eleva/anchor-core": "workspace:*",
+    "commander": "^15.0.0",
+    "cosmiconfig": "^9.0.2",
+    "tinyglobby": "^0.2.17",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "typescript": "^5.7.3"

@@ -70,6 +70,7 @@ export const terminalReporter: Reporter = {
 
   render(report: LintReport, options: ReporterOptions = {}): string {
     const color = options.color ?? false;
+    const emoji = options.emoji ?? false;
     const lines: string[] = [];
 
     for (const file of report.files) {
@@ -89,10 +90,12 @@ export const terminalReporter: Reporter = {
       const source = options.getSource?.(file.path);
 
       for (const violation of file.violations) {
+        const label = violation.severity === 'error' ? 'error  ' : 'warning';
+        const marked = emoji ? `${violation.severity === 'error' ? '✖' : '▲'} ${label}` : label;
         const severity =
           violation.severity === 'error'
-            ? paint('error', 'red', color)
-            : paint('warning', 'yellow', color);
+            ? paint(marked, 'red', color)
+            : paint(marked, 'yellow', color);
 
         const position = paint(`${violation.line}:${violation.column}`, 'dim', color);
         const rule = paint(violation.ruleId, 'grey', color);
@@ -110,6 +113,10 @@ export const terminalReporter: Reporter = {
     }
 
     const { errors, warnings, total, fixable } = report.counts;
+
+    if (options.summary === false) {
+      return lines.length === 0 ? '' : `${lines.join('\n').trimEnd()}\n`;
+    }
 
     if (total === 0) {
       const checked = pluralize(report.filesChecked, 'file');
