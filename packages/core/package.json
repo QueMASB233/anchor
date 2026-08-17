@@ -55,7 +55,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@typescript-eslint/typescript-estree": "^8.65.0",
+    "@typescript-eslint/typescript-estree": "^8.67.0",
     "postcss": "^8.5.23",
     "zod": "^4.4.3"
   }
