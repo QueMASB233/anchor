@@ -22,13 +22,13 @@ jobs:
       # Required for npm provenance attestations.
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: pnpm
@@ -47,7 +47,7 @@ jobs:
       # NPM_TOKEN is added to repository secrets, this job only manages the
       # version PR and the publish step is a no-op.
       - name: Create version PR or publish
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           version: pnpm run version-packages
           publish: pnpm run release
