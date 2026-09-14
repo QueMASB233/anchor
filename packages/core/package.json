@@ -57,6 +57,6 @@
   "dependencies": {
     "@typescript-eslint/typescript-estree": "^8.65.0",
     "postcss": "^8.5.23",
-    "zod": "^4.4.3"
+    "zod": "^4.6.2"
   }
 }
